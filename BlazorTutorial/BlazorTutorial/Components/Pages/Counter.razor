@@ -1,0 +1,91 @@
+﻿@page "/counter"
+@rendermode InteractiveServer
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+@*Using an event handler for when button clicked*@
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@*Div for input text 
+	Uses bootstrap class of m-4 for margin
+	Displays text below text box as well
+*@
+<div class="m-4">
+	<input type="text" @oninput="HandleInput" />
+	<p>@text</p>
+</div>
+
+@*Div used for hovering*@
+<div style="border: 1px solid green;" @onmouseover="MouseOver">
+	<p>@hoverText</p>
+</div>
+
+@*Div for keydown*@
+<div class="m-4">
+	<input type="text" @onkeydown="KeyDown" />
+	<p>@keyText</p>
+</div>
+
+@*Div for onfocus and onblur*@
+<div class="m-4">
+	<input type="text" @onfocus="HandleFocus" @onblur="HandleBlur" />
+	<p>@blurText</p>
+</div>
+
+@code {
+	// Variable for count
+	private int currentCount = 0;
+	// Variable for input
+	string text = "";
+	// Variable for hover
+	string hoverText = "";
+	// Variable for keydown
+	string keyText = "";
+	// Variable for blur and focus
+	string blurText = "";
+
+	[Parameter]
+	// This counter increments by 1 as set to 1
+	public int IncrementAmount { get; set; } = 1;
+
+	// Method for incrementing
+	private void IncrementCount()
+	{
+		currentCount+=IncrementAmount;
+	}
+	// Method for handling the input when value of input changes
+	private void HandleInput(ChangeEventArgs e)
+	{
+		// Using value property to hold new value of input element that triggered event
+		// Value is normally type obj so set to str 
+		// ! used to indicate e.Value wont be null
+		text = (string)e.Value!;
+	}
+	// Method for when mouse goes over line
+	private void MouseOver(MouseEventArgs e)
+	{
+		hoverText = "Hovered, now I'm here.";
+	}
+
+	// Method for pressing keys
+	private void KeyDown(KeyboardEventArgs e)
+	{
+		keyText = e.Key;
+	}
+
+	// Method for focus event
+	private void HandleFocus(FocusEventArgs e)
+	{
+		blurText = "Hey how you doing?";
+	}
+
+	// Method for blur event
+	private void HandleBlur(FocusEventArgs e)
+	{
+		blurText = "Where you going..?";
+	}
+}
